@@ -43,7 +43,7 @@
       ignore_errors: yes
 
     - name: Install ArgoCD
-      shell: microk8s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+      shell: microk8s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side --force-conflicts
 
     - name: Apply ArgoCD Application Manifest
       shell: microk8s kubectl apply -f /home/ubuntu/WhatTheFlag/argocd-app.yml
