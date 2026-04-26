@@ -18,3 +18,13 @@ Thumbs.db
 
 # Docker
 .docker/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+terraform.tfplan
+crash.log
