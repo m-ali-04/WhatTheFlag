@@ -1,4 +1,11 @@
+# ============================================================
+# provider.tf — AWS provider config.
+# Uses var.aws_region so changing region is a one-line edit.
+# ============================================================
+
 terraform {
+  required_version = ">= 1.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -8,5 +15,5 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1" # You can change this to your preferred region
+  region = var.aws_region
 }
