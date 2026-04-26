@@ -62,7 +62,7 @@ spec:
     spec:
       containers:
       - name: bot
-        image: aliwhaa/wtf-bot:latest
+        image: aliwhaa/wtf-bot:e8d98b1
         ports:
         - containerPort: 5002
 ---
@@ -92,7 +92,7 @@ spec:
     spec:
       containers:
       - name: engine
-        image: aliwhaa/wtf-engine:latest
+        image: aliwhaa/wtf-engine:e8d98b1
         env:
         - name: MONGO_URI
           value: "mongodb://db:27017/"
@@ -127,7 +127,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: aliwhaa/wtf-frontend:latest
+        image: aliwhaa/wtf-frontend:e8d98b1
         env:
         - name: ENGINE_URL
           value: "http://game-engine:5001/api"
