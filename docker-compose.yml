@@ -1,0 +1,44 @@
+
+
+services:
+  db:
+    image: mongo:latest
+    container_name: whattheflag_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  bot-service:
+    build: ./bot-service
+    container_name: whattheflag_bot
+    ports:
+      - "5002:5002"
+    restart: unless-stopped
+
+  game-engine:
+    build: ./game-engine
+    container_name: whattheflag_engine
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb://db:27017/
+      - BOT_SERVICE_URL=http://bot-service:5002
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: whattheflag_frontend
+    ports:
+      - "5000:5000"
+    environment:
+      - ENGINE_URL=http://game-engine:5001/api
+    depends_on:
+      - game-engine
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

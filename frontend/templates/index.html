@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What The Flag?</title>
+    <meta name="description" content="Guess the flag of countries around the world in Quiz, Time Attack, and Race modes.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="pulse-text">What The Flag?</h1>
+        </header>
+
+        <!-- ══════════════ MAIN MENU ══════════════ -->
+        <div id="main-menu" class="screen active">
+            <h2>Select a Mode</h2>
+
+            <!-- Quiz (Number) -->
+            <div class="mode-card">
+                <div class="mode-header">
+                    <span class="mode-icon">🏆</span>
+                    <span class="mode-title">Quiz — Flags</span>
+                </div>
+                <div class="mode-controls">
+                    <label for="quiz-count-select">How many flags?</label>
+                    <select id="quiz-count-select" class="game-select">
+                        <option value="10">10 Flags</option>
+                        <option value="20">20 Flags</option>
+                        <option value="30">30 Flags</option>
+                        <option value="50">50 Flags</option>
+                    </select>
+                    <button class="btn primary" onclick="startQuizNumber()">Start</button>
+                </div>
+            </div>
+
+            <!-- Quiz (Time) -->
+            <div class="mode-card">
+                <div class="mode-header">
+                    <span class="mode-icon">⏱️</span>
+                    <span class="mode-title">Quiz — Time Attack</span>
+                </div>
+                <div class="mode-controls">
+                    <label for="quiz-time-select">Time limit?</label>
+                    <select id="quiz-time-select" class="game-select">
+                        <option value="30">30 Seconds</option>
+                        <option value="60" selected>60 Seconds</option>
+                        <option value="120">2 Minutes</option>
+                    </select>
+                    <button class="btn secondary" onclick="startQuizTime()">Start</button>
+                </div>
+            </div>
+
+            <!-- Race -->
+            <div class="mode-card">
+                <div class="mode-header">
+                    <span class="mode-icon">🤖</span>
+                    <span class="mode-title">Race the Bot</span>
+                </div>
+                <div class="mode-controls">
+                    <label for="bot-level-select">Bot difficulty?</label>
+                    <select id="bot-level-select" class="game-select">
+                        <option value="easy">Easy Bot</option>
+                        <option value="medium" selected>Medium Bot</option>
+                        <option value="hard">Hard Bot</option>
+                    </select>
+                    <button class="btn accent" onclick="startRace()">Race!</button>
+                </div>
+            </div>
+
+            <div class="menu-actions">
+                <button class="btn info" onclick="loadLeaderboard()">Leaderboard</button>
+                <button class="btn outline" onclick="seedDatabase()" id="seed-btn">Seed Database (First Time)</button>
+            </div>
+            <p id="seed-msg" class="msg"></p>
+        </div>
+
+        <!-- ══════════════ QUIZ SCREEN ══════════════ -->
+        <div id="quiz-screen" class="screen">
+            <div class="stats-bar">
+                <div id="score-display">Score: <span id="score-val">0</span></div>
+                <div id="streak-display" class="streak">🔥 <span id="streak-val">0</span></div>
+                <div id="progress-display">Q 1/10</div>
+                <div id="time-display" class="timer-chip"></div>
+            </div>
+
+            <div class="flag-container">
+                <div class="img-wrapper">
+                    <img id="flag-img" src="" alt="Flag">
+                </div>
+            </div>
+
+            <div class="options-container" id="options-container"></div>
+        </div>
+
+        <!-- ══════════════ RACE SCREEN ══════════════ -->
+        <div id="race-screen" class="screen">
+            <div class="stats-bar">
+                <div id="race-score-display">Score: <span id="race-score-val">0</span></div>
+                <div id="race-timer">60s</div>
+            </div>
+
+            <div class="race-tracks">
+                <div class="track">
+                    <div class="track-label">
+                        <span>You</span>
+                        <span id="player-pct">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="fill player" id="player-fill" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="track">
+                    <div class="track-label">
+                        <span id="bot-label">Bot</span>
+                        <span id="bot-pct">0%</span>
+                    </div>
+                    <div class="progress-bar" id="bot-bar">
+                        <div class="fill bot" id="bot-fill" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flag-container" style="margin-top:16px;">
+                <div class="img-wrapper">
+                    <img id="race-flag-img" src="" alt="Flag">
+                </div>
+            </div>
+
+            <div class="options-container" id="race-options-container"></div>
+        </div>
+
+        <!-- ══════════════ RESULT SCREEN ══════════════ -->
+        <div id="result-screen" class="screen">
+            <h2 id="result-title">Game Over</h2>
+            <div id="final-score" class="final-score-display pulse-text"></div>
+            <div id="final-percentage" class="percentage-display"></div>
+            <div class="result-stats" id="result-stats"></div>
+            
+            <div id="save-score-section" class="save-score-card">
+                <h3>Save your score?</h3>
+                <div class="save-controls">
+                    <input type="text" id="username-input" placeholder="Enter username" maxlength="15">
+                    <button class="btn success" onclick="saveScore()">Save</button>
+                </div>
+                <p id="save-msg" class="msg"></p>
+            </div>
+
+            <div class="result-actions">
+                <button class="btn primary" onclick="showMainMenu()">Main Menu</button>
+            </div>
+        </div>
+
+        <!-- ══════════════ LEADERBOARD SCREEN ══════════════ -->
+        <div id="leaderboard-screen" class="screen">
+            <h2>🏆 Leaderboard</h2>
+            <div class="leaderboard-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                            <th>Mode</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn primary" onclick="showMainMenu()" style="margin-top: 20px; width: 100%;">Back to Menu</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
