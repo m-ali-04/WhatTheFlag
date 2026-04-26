@@ -45,6 +45,11 @@
     - name: Install ArgoCD
       shell: microk8s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side --force-conflicts
 
+    - name: Copy ArgoCD Application Manifest to Target Node
+      copy:
+        src: ./argocd-app.yml
+        dest: /tmp/argocd-app.yml
+
     - name: Apply ArgoCD Application Manifest
-      shell: microk8s kubectl apply -f /home/ubuntu/WhatTheFlag/argocd-app.yml
+      shell: microk8s kubectl apply -f /tmp/argocd-app.yml
       ignore_errors: yes # Might fail if the file isn't there on the first run, but that's okay
