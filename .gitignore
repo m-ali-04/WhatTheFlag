@@ -28,3 +28,12 @@ Thumbs.db
 .terraform.lock.hcl
 terraform.tfplan
 crash.log
+
+# Ignore the actual inventory and keys
+inventory.ini
+*.pem
+
+# Ignore Terraform state
+*.tfstate
+*.tfstate.backup
+.terraform/
