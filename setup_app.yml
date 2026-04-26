@@ -1,0 +1,36 @@
+---
+- name: Prepare Target Node for Kubernetes
+  hosts: target
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install MicroK8s
+      snap:
+        name: microk8s
+        classic: yes
+
+    - name: Add 'ubuntu' user to groups
+      user:
+        name: ubuntu
+        groups: docker, microk8s
+        append: yes
+
+    - name: Ensure .kube directory exists
+      file:
+        path: /home/ubuntu/.kube
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Wait for MicroK8s to be ready
+      shell: microk8s status --wait-ready
+      register: mk8s_status
