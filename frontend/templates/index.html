@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What The Flag?</title>
-    <meta name="description" content="Guess the flag of countries around the world in Quiz, Time Attack, and Race modes.">
+    <meta name="description"
+        content="Guess the flag of countries around the world in Quiz, Time Attack, and Race modes.">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1 class="pulse-text">What The Flag?</h1>
+            <h1 class="pulse-text">What The Flag?????</h1>
         </header>
 
         <!-- ══════════════ MAIN MENU ══════════════ -->
@@ -138,7 +141,7 @@
             <div id="final-score" class="final-score-display pulse-text"></div>
             <div id="final-percentage" class="percentage-display"></div>
             <div class="result-stats" id="result-stats"></div>
-            
+
             <div id="save-score-section" class="save-score-card">
                 <h3>Save your score?</h3>
                 <div class="save-controls">
@@ -171,10 +174,12 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn primary" onclick="showMainMenu()" style="margin-top: 20px; width: 100%;">Back to Menu</button>
+            <button class="btn primary" onclick="showMainMenu()" style="margin-top: 20px; width: 100%;">Back to
+                Menu</button>
         </div>
     </div>
 
     <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
+
 </html>
