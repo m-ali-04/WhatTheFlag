@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: whattheflag
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/m-ali-04/WhatTheFlag.git'
+    targetRevision: main
+    path: .
+    directory:
+      include: 'k8s-prod.yml' # Only apply this file
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
